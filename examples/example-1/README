@@ -10,3 +10,30 @@
 7) save that workflow.
 8) run it.
 9) let me know if you have any trouble in executing this workflow.
+
+
+### scala install
+  170  sudo mv scala-2.11.8 /usr/share/scala
+  171  $ sudo ln -s /usr/share/scala/bin/scala /usr/bin/scala
+  172  $ sudo ln -s /usr/share/scala/bin/scalac /usr/bin/scalac
+  173  $ sudo ln -s /usr/share/scala/bin/fsc /usr/bin/fsc
+  174  $ sudo ln -s /usr/share/scala/bin/sbaz /usr/bin/sbaz
+  175  $ sudo ln -s /usr/share/scala/bin/sbaz-setup /usr/bin/sbaz-setup
+  176  $ sudo ln -s /usr/share/scala/bin/scaladoc /usr/bin/scaladoc
+  177  $ sudo ln -s /usr/share/scala/bin/scalap /usr/bin/scalap
+  
+  191  sudo mkdir /src
+  192  sudo mkdir /src/main
+  193  sudo mkdir /src/main/scala
+
+### sbt install  
+   203  curl https://bintray.com/sbt/rpm/rpm | sudo tee /etc/yum.repos.d/bintray-sbt-rpm.repo
+   204  sudo yum install sbt
+   
+   
+###
+1) put scala file into src/main/scala/*.scala 
+2) install sbt
+3) create simple.sbt file.
+4) use "sbt package" command to compile scala code.
+5) jar -tvf *.jar to find classname.
