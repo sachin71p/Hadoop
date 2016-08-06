@@ -1,0 +1,12 @@
+1) edit previously created oozie workflow.
+2) add one more shell action.
+3) type r.sh in shell command, and put both r.sh and weather3.R files into file section.
+4) add both env_vaiables as below.
+   HADOOP_USER_NAME=sachin
+   LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.101-3.b13.el7_2.x86_64/jre/lib/amd64/server:/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.111-2.6.7.2.el7_2.x86_64/jre/lib/amd64/server
+6) untick capture output if already marked.
+5) add hiveserver-2 action.
+6) drop weather_jan2000.hql file in hive action.
+7) save that workflow.
+8) run it.
+9) let me know if you have any trouble in executing this workflow.
