@@ -1,0 +1,60 @@
+<workflow-app name="My_Workflow" xmlns="uri:oozie:workflow:0.5">
+  <global>
+            <configuration>
+                <property>
+                    <name>oozie.launcher.yarn.app.mapreduce.am.env</name>
+                    <value>SPARK_HOME=/opt/cloudera/parcels/CDH/lib/spark</value>
+                </property>
+            </configuration>
+  </global>
+    <start to="shell-972e"/>
+    <kill name="Kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <action name="shell-972e">
+        <shell xmlns="uri:oozie:shell-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <exec>weather.sh</exec>
+              <env-var>HADOOP_USER_NAME=sachin</env-var>
+            <file>/user/sachin/spark-jobs/weather.sh#weather.sh</file>
+              <capture-output/>
+        </shell>
+        <ok to="hive2-51c5"/>
+        <error to="Kill"/>
+    </action>
+    <action name="hive2-51c5" cred="hive2">
+        <hive2 xmlns="uri:oozie:hive2-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <jdbc-url>jdbc:hive2://ip-10-128-73-110.17bc59825e00ad20.cazena.internal:10000/default</jdbc-url>
+            <script>/user/sachin/spark-jobs/weather.hql</script>
+        </hive2>
+        <ok to="shell-67db"/>
+        <error to="Kill"/>
+    </action>
+    <action name="shell-67db">
+        <shell xmlns="uri:oozie:shell-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <exec>r.sh</exec>
+              <env-var>HADOOP_USER_NAME=sachin</env-var>
+              <env-var>LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.101-3.b13.el7_2.x86_64/jre/lib/amd64/server:/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.111-2.6.7.2.el7_2.x86_64/jre/lib/amd64/server</env-var>
+            <file>/user/sachin/R-jobs/r.sh#r.sh</file>
+            <file>/user/sachin/R-jobs/weather3.R#weather3.R</file>
+        </shell>
+        <ok to="hive2-ca16"/>
+        <error to="Kill"/>
+    </action>
+    <action name="hive2-ca16" cred="hive2">
+        <hive2 xmlns="uri:oozie:hive2-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <jdbc-url>jdbc:hive2://ip-10-128-73-110.17bc59825e00ad20.cazena.internal:10000/default</jdbc-url>
+            <script>/user/sachin/R-jobs/weather_jan2000.hql</script>
+        </hive2>
+        <ok to="End"/>
+        <error to="Kill"/>
+    </action>
+    <end name="End"/>
+</workflow-app>
