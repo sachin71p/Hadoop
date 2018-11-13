@@ -25,7 +25,7 @@
     while true; do echo "`date +%s%N | cut -b1-13`,$((RANDOM % 100))"; sleep 1; done | kafka-console-producer --broker-list <kafka-broker-fqdn>:9092,... --topic traffic --producer.config client.properties
     ```
 
-6. Create [jaas.conf](files/jass.conf) file on the client machine in another session.
+6. Create [jaas.conf](files/jaas.conf) file on the client machine in another session.
 
 7. Run the Spark Streaming application (replace kerberos user principal and keytab, kafka consumer group id, kafka brokers,
    and kudu masters parameters):
